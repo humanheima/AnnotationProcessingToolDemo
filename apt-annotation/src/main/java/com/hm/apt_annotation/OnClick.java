@@ -12,5 +12,5 @@ import java.lang.annotation.Target;
 @Retention(RetentionPolicy.CLASS)
 public @interface OnClick {
 
-    int value();
+    int[] value();
 }

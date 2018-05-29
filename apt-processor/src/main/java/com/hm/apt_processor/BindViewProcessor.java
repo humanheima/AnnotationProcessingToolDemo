@@ -82,13 +82,15 @@ public class BindViewProcessor extends AbstractProcessor {
          */
         Set<? extends Element> onClickElements = roundEnvironment.getElementsAnnotatedWith(OnClick.class);
         for (Element element : onClickElements) {
-            ExecutableElement variableElement = ((ExecutableElement) element);
-            TypeElement classElement = (TypeElement) variableElement.getEnclosingElement();
+            ExecutableElement executableElement = ((ExecutableElement) element);
+            TypeElement classElement = (TypeElement) executableElement.getEnclosingElement();
             String fullClassName = classElement.getQualifiedName().toString();
             ClassCreatorProxy proxy = proxyMap.get(fullClassName);
-            OnClick onClickAnnotation = variableElement.getAnnotation(OnClick.class);
-            int id = onClickAnnotation.value();
-            proxy.putOnclickElement(id, variableElement);
+            OnClick onClickAnnotation = executableElement.getAnnotation(OnClick.class);
+            int[] values = onClickAnnotation.value();
+            for (int i = 0; i < values.length; i++) {
+                proxy.putOnclickElement(values[i], executableElement);
+            }
         }
 
         for (String key : proxyMap.keySet()) {
